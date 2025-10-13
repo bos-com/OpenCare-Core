@@ -3,14 +3,12 @@ API views for OpenCare-Africa health system.
 """
 
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
+
+from .permissions import RoleRequired, require_roles
 
 User = get_user_model()
 
@@ -29,7 +27,8 @@ class PatientViewSet(viewsets.ModelViewSet):
     """
     ViewSet for patient management.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = User.objects.none()  # Placeholder until Patient model is implemented
     # serializer_class = PatientSerializer
     
@@ -53,7 +52,8 @@ class HealthWorkerViewSet(viewsets.ModelViewSet):
     """
     ViewSet for health worker management.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN})
     queryset = User.objects.filter(user_type__in=['doctor', 'nurse', 'midwife', 'community_worker'])
     # serializer_class = UserSerializer
     
@@ -72,7 +72,8 @@ class FacilityViewSet(viewsets.ModelViewSet):
     """
     ViewSet for health facility management.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = User.objects.none()  # Placeholder until HealthFacility model is implemented
     # serializer_class = HealthFacilitySerializer
     
@@ -91,7 +92,8 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     """
     ViewSet for patient visit management.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = User.objects.none()  # Placeholder until PatientVisit model is implemented
     # serializer_class = PatientVisitSerializer
     
@@ -108,7 +110,8 @@ class HealthRecordViewSet(viewsets.ModelViewSet):
     """
     ViewSet for health record management.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = User.objects.none()  # Placeholder until HealthRecord model is implemented
     # serializer_class = HealthRecordSerializer
     
@@ -123,10 +126,11 @@ class HealthRecordViewSet(viewsets.ModelViewSet):
         })
 
 
-@require_http_methods(["GET"])
+@api_view(["GET"])
+@permission_classes([AllowAny])
 def health_check(request):
     """Health check endpoint for API monitoring."""
-    return JsonResponse({
+    return Response({
         'status': 'healthy',
         'service': 'OpenCare-Africa API',
         'version': '1.0.0',
@@ -141,10 +145,12 @@ def health_check(request):
     })
 
 
-@require_http_methods(["GET"])
+@require_roles(User.Role.ADMIN)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, RoleRequired])
 def api_stats(request):
     """Get API usage statistics."""
-    return JsonResponse({
+    return Response({
         'total_requests': 0,
         'active_users': 0,
         'popular_endpoints': [],
@@ -156,13 +162,15 @@ def api_stats(request):
     })
 
 
-@require_http_methods(["POST"])
+@require_roles(User.Role.ADMIN)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated, RoleRequired])
 def export_data(request):
     """Export data in various formats."""
     format_type = request.data.get('format', 'json')
     data_type = request.data.get('type', 'patients')
-    
-    return JsonResponse({
+
+    return Response({
         'message': 'Data export endpoint',
         'format': format_type,
         'type': data_type,
