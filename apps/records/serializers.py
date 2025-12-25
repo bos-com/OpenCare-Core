@@ -1,23 +1,28 @@
 """
-Serializers for health records.
+Serializers for patient health record APIs.
 """
 
 from __future__ import annotations
 
 from rest_framework import serializers
 
+from apps.core.models import User
+from apps.patients.models import Patient
+
 from .models import HealthRecord, VitalSigns, Medication, LaboratoryTest
 
 
 class HealthRecordSerializer(serializers.ModelSerializer):
     """
-    Basic serializer for HealthRecord model.
+    Lightweight representation of a health record for list views.
     """
 
     record_type_display = serializers.CharField(source="get_record_type_display", read_only=True)
     patient_name = serializers.CharField(source="patient.get_full_name", read_only=True)
     facility_name = serializers.CharField(source="facility.name", read_only=True)
-    provider_name = serializers.CharField(source="attending_provider.get_full_name", read_only=True)
+    provider_name = serializers.CharField(
+        source="attending_provider.get_full_name", read_only=True
+    )
 
     class Meta:
         model = HealthRecord
@@ -47,7 +52,7 @@ class HealthRecordSerializer(serializers.ModelSerializer):
 
 class HealthRecordDetailSerializer(HealthRecordSerializer):
     """
-    Detailed serializer with nested data.
+    Extend the base health record serializer with full clinical context.
     """
 
     class Meta(HealthRecordSerializer.Meta):
@@ -65,7 +70,7 @@ class HealthRecordDetailSerializer(HealthRecordSerializer):
 
 class HealthRecordCreateSerializer(serializers.ModelSerializer):
     """
-    Serializer for creating health records.
+    Handle creation and updates while validating related foreign keys.
     """
 
     class Meta:
@@ -78,13 +83,34 @@ class HealthRecordCreateSerializer(serializers.ModelSerializer):
             "attending_provider",
             "chief_complaint",
             "history_of_present_illness",
+            "past_medical_history",
+            "family_history",
+            "social_history",
+            "vital_signs",
+            "physical_examination",
             "assessment",
             "diagnosis",
             "treatment_plan",
             "follow_up_plan",
             "notes",
+            "attachments",
             "is_confidential",
+            "is_active",
         ]
+
+    def validate(self, attrs):
+        """
+        Ensure the referenced patient, provider, and facility are active entries.
+        """
+        patient: Patient = attrs.get("patient")
+        provider: User | None = attrs.get("attending_provider")
+        if patient and not patient.is_active:
+            raise serializers.ValidationError("Patient profile is inactive.")
+
+        if provider and not provider.is_active:
+            raise serializers.ValidationError("Attending provider account is inactive.")
+
+        return attrs
 
 
 class VitalSignsSerializer(serializers.ModelSerializer):

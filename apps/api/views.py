@@ -35,6 +35,8 @@ from apps.records.serializers import (
     HealthRecordSerializer,
 )
 from apps.core.audit import log_audit_event
+from apps.api.permissions import IsClinicalStaff
+from apps.records.filters import HealthRecordFilter
 
 User = get_user_model()
 
@@ -183,24 +185,31 @@ class PatientVisitViewSet(AuditLogMixin, viewsets.ModelViewSet):
 
 class HealthRecordViewSet(AuditLogMixin, viewsets.ModelViewSet):
     """
-    ViewSet for health record management with audit logging.
+    Provide CRUD operations for patient health records with audit logging.
+
+    Access is limited to authenticated clinical staff or superusers. Collections
+    support filtering by patient, provider, facility, record type, and date
+    ranges to keep browsing focused on relevant medical history.
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsClinicalStaff]
     queryset = (
         HealthRecord.objects.select_related("patient", "facility", "attending_provider")
         .prefetch_related("medications", "laboratory_tests")
         .all()
     )
     serializer_class = HealthRecordSerializer
-    filterset_fields = ["patient", "facility", "record_type", "is_confidential"]
+    filterset_class = HealthRecordFilter
     search_fields = [
         "patient__patient_id",
         "patient__first_name",
         "patient__last_name",
         "facility__name",
+        "attending_provider__first_name",
+        "attending_provider__last_name",
     ]
     ordering_fields = ["record_date", "created_at"]
+    ordering = ["-record_date"]
 
     serializer_action_map = {
         "list": HealthRecordSerializer,
@@ -211,18 +220,29 @@ class HealthRecordViewSet(AuditLogMixin, viewsets.ModelViewSet):
     }
 
     def get_serializer_class(self):
+        """
+        Return the serializer configured for the current action.
+        """
         return self.serializer_action_map.get(self.action, self.serializer_class)
 
     @action(detail=False, methods=["get"], url_path="by-patient")
     def by_patient(self, request):
         """
-        Return records filtered by patient ID.
+        List health records for a patient identifier.
+
+        This helper allows clinicians to quickly pull a patient's timeline by
+        passing their external `patient_id` as a query parameter.
         """
-        patient_id = request.query_params.get("patient_id")
-        if not patient_id:
-            return Response({"results": [], "count": 0})
-        records = self.get_queryset().filter(patient__patient_id=patient_id)
-        results = HealthRecordSerializer(records, many=True).data
+        patient_identifier = request.query_params.get("patient_id")
+        if not patient_identifier:
+            return Response({"results": []})
+
+        queryset = self.filter_queryset(
+            self.get_queryset().filter(patient__patient_id=patient_identifier)
+        )
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page or queryset, many=True)
+        
         log_audit_event(
             user=request.user,
             action="view",
@@ -231,7 +251,10 @@ class HealthRecordViewSet(AuditLogMixin, viewsets.ModelViewSet):
             request=request,
             changes={"summary": "records fetched by patient identifier"},
         )
-        return Response({"results": results, "count": len(results)})
+        
+        if page is not None:
+            return self.get_paginated_response(serializer.data)
+        return Response({"results": serializer.data})
 
 
 class AuditTrailViewSet(viewsets.ReadOnlyModelViewSet):

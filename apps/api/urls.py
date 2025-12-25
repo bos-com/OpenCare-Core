@@ -11,13 +11,12 @@ app_name = 'api'
 
 # Create a router and register our viewsets with it
 router = DefaultRouter()
-# Combined content from both branches:
 router.register(r'patients', views.PatientViewSet, basename='patients')
 router.register(r'health-workers', views.HealthWorkerViewSet, basename='health-workers')
 router.register(r'facilities', views.FacilityViewSet, basename='facilities')
 router.register(r'visits', views.PatientVisitViewSet, basename='visits')
 router.register(r'records', views.HealthRecordViewSet, basename='records')
-router.register(r'audit-logs', views.AuditTrailViewSet, basename='audit-logs') # The new registration
+router.register(r'audit-logs', views.AuditTrailViewSet, basename='audit-logs')
 
 urlpatterns = [
     # API v1 endpoints
