@@ -16,6 +16,7 @@ router.register(r'health-workers', views.HealthWorkerViewSet, basename='health-w
 router.register(r'facilities', views.FacilityViewSet, basename='facilities')
 router.register(r'visits', views.PatientVisitViewSet, basename='visits')
 router.register(r'records', views.HealthRecordViewSet, basename='records')
+router.register(r'audit-logs', views.AuditTrailViewSet, basename='audit-logs')
 
 urlpatterns = [
     # API v1 endpoints

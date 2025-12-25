@@ -7,8 +7,11 @@ capture actionable diagnostics via logging, and verify everything with tests.
 ## Sanitized Error Responses
 
 - **Prefer structured payloads**: Use Django REST Framework's `Response` with a
-  consistent schema (`code`, `message`, `detail`). Include only the context
+  consistent schema (`code`, `message`, `errors`). Include only the context
   clients need to proceed; never echo raw exception strings or database fields.
+- **Centralized handler**: The custom exception handler at
+  `apps.api.exceptions.sanitized_exception_handler` enforces the standard shape
+  and replaces 5xx messages with a generic placeholder.
 - **Remove sensitive values**: Strip patient identifiers, authentication
   tokens, secrets, and raw query parameters from direct responses. When the
   original error contains sensitive values, replace them with neutral language
