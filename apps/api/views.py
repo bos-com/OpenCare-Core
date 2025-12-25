@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.api.mixins import AuditLogMixin
+from apps.appointments.views import AppointmentViewSet  # re-export for router
 from apps.core.models import AuditTrail, HealthFacility
 from apps.core.serializers import (
     AuditTrailSerializer,

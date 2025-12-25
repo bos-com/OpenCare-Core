@@ -241,6 +241,7 @@ The API is fully documented using OpenAPI/Swagger:
 - **Facilities**: `/api/v1/facilities/`
 - **Health Records**: `/api/v1/records/`
 - **Analytics**: `/api/v1/analytics/`
+- **Appointments**: `/api/v1/appointments/`
 
 ## 🗄️ Database Schema
 
@@ -389,6 +390,7 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 - **User Guides**: Available in `/docs/` directory
 - **Patient Records**: See [`docs/patient-records.md`](docs/patient-records.md) for CRUD usage and security notes
 - **Audit Logging**: See [`docs/audit-logs.md`](docs/audit-logs.md) for PHI access tracking requirements
+- **Appointments**: See [`docs/appointments.md`](docs/appointments.md) for scheduling API usage and safeguards
 
 ## 🤝 Contributing
 
