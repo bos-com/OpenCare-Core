@@ -116,6 +116,7 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 
 - Start the stack via Docker or local development, then browse to http://localhost:8000/api/docs/ for interactive OpenAPI documentation.
 - Review sanitized response expectations and logging rules in [`docs/error-handling.md`](docs/error-handling.md) before exposing new endpoints.
+- Review role expectations and required permissions in [`docs/rbac.md`](docs/rbac.md) when adding or updating APIs.
 - Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see the error-handling guide for recommendations.
 
 ### 🐳 Docker Services Overview

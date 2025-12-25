@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework import viewsets, status
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from apps.api.mixins import AuditLogMixin
@@ -35,7 +35,7 @@ from apps.records.serializers import (
     HealthRecordSerializer,
 )
 from apps.core.audit import log_audit_event
-from apps.api.permissions import IsClinicalStaff
+from apps.api.permissions import IsClinicalStaff, RoleRequired, require_roles
 from apps.records.filters import HealthRecordFilter
 
 User = get_user_model()
@@ -46,7 +46,8 @@ class PatientViewSet(AuditLogMixin, viewsets.ModelViewSet):
     ViewSet for patient management with audit logging.
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = (
         Patient.objects.select_related("location", "registered_facility")
         .prefetch_related("patientvisit_set")
@@ -114,7 +115,8 @@ class HealthWorkerViewSet(viewsets.ReadOnlyModelViewSet):
     ViewSet for health worker management.
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN})
     queryset = User.objects.filter(
         user_type__in=["doctor", "nurse", "midwife", "community_worker"]
     )
@@ -122,18 +124,49 @@ class HealthWorkerViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["first_name", "last_name", "specialization"]
     ordering_fields = ["last_name", "date_joined"]
 
+    @action(detail=False, methods=["get"])
+    def by_specialization(self, request):
+        """Get health workers by specialization."""
+        specialization = request.query_params.get("specialization", "")
+        queryset = self.get_queryset()
+        if specialization:
+            queryset = queryset.filter(specialization__icontains=specialization)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            "message": "Health workers by specialization",
+            "specialization": specialization,
+            "results": serializer.data,
+            "count": len(serializer.data)
+        })
+
 
 class FacilityViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for health facility management.
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = HealthFacility.objects.select_related("location").all()
     serializer_class = HealthFacilitySerializer
     filterset_fields = ["facility_type", "location"]
     search_fields = ["name", "address"]
     ordering_fields = ["name"]
+
+    @action(detail=False, methods=["get"])
+    def by_location(self, request):
+        """Get facilities by location."""
+        location = request.query_params.get("location", "")
+        queryset = self.get_queryset()
+        if location:
+            queryset = queryset.filter(location__name__icontains=location)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            "message": "Facilities by location",
+            "location": location,
+            "results": serializer.data,
+            "count": len(serializer.data)
+        })
 
 
 class PatientVisitViewSet(AuditLogMixin, viewsets.ModelViewSet):
@@ -141,7 +174,8 @@ class PatientVisitViewSet(AuditLogMixin, viewsets.ModelViewSet):
     ViewSet for patient visit management with audit logging.
     """
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, RoleRequired]
+    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
     queryset = (
         PatientVisit.objects.select_related("patient", "facility", "attending_provider")
         .all()
@@ -271,50 +305,49 @@ class AuditTrailViewSet(viewsets.ReadOnlyModelViewSet):
     ordering = ["-timestamp"]
 
 
-@require_http_methods(["GET"])
+@api_view(["GET"])
+@permission_classes([AllowAny])
 def health_check(request):
     """Health check endpoint for API monitoring."""
-    return JsonResponse(
-        {
-            "status": "healthy",
-            "service": "OpenCare-Africa API",
-            "version": "1.0.0",
-            "timestamp": "2024-01-01T00:00:00Z",
-            "endpoints": {
-                "patients": "/api/v1/patients/",
-                "health_workers": "/api/v1/health-workers/",
-                "facilities": "/api/v1/facilities/",
-                "visits": "/api/v1/visits/",
-                "records": "/api/v1/records/",
-            },
-        }
-    )
+    return Response({
+        "status": "healthy",
+        "service": "OpenCare-Africa API",
+        "version": "1.0.0",
+        "timestamp": "2024-01-01T00:00:00Z",
+        "endpoints": {
+            "patients": "/api/v1/patients/",
+            "health_workers": "/api/v1/health-workers/",
+            "facilities": "/api/v1/facilities/",
+            "visits": "/api/v1/visits/",
+            "records": "/api/v1/records/",
+        },
+    })
 
 
-@require_http_methods(["GET"])
+@require_roles(User.Role.ADMIN)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated, RoleRequired])
 def api_stats(request):
     """Get API usage statistics."""
-    return JsonResponse(
-        {
-            "total_requests": 0,
-            "active_users": 0,
-            "popular_endpoints": [],
-            "response_times": {"average": 0, "p95": 0, "p99": 0},
-        }
-    )
+    return Response({
+        "total_requests": 0,
+        "active_users": 0,
+        "popular_endpoints": [],
+        "response_times": {"average": 0, "p95": 0, "p99": 0},
+    })
 
 
-@require_http_methods(["POST"])
+@require_roles(User.Role.ADMIN)
+@api_view(["POST"])
+@permission_classes([IsAuthenticated, RoleRequired])
 def export_data(request):
     """Export data in various formats."""
-    format_type = request.POST.get("format", "json")
-    data_type = request.POST.get("type", "patients")
+    format_type = request.data.get("format", "json")
+    data_type = request.data.get("type", "patients")
 
-    return JsonResponse(
-        {
-            "message": "Data export endpoint",
-            "format": format_type,
-            "type": data_type,
-            "download_url": None,
-        }
-    )
+    return Response({
+        "message": "Data export endpoint",
+        "format": format_type,
+        "type": data_type,
+        "download_url": None,
+    })
