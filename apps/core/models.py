@@ -12,6 +12,11 @@ class User(AbstractUser):
     """
     Custom user model for health workers and administrators.
     """
+    class Role(models.TextChoices):
+        ADMIN = 'admin', _('Administrator')
+        PROVIDER = 'provider', _('Healthcare Provider')
+        PATIENT = 'patient', _('Patient')
+
     USER_TYPE_CHOICES = [
         ('admin', _('Administrator')),
         ('doctor', _('Doctor')),
@@ -22,6 +27,12 @@ class User(AbstractUser):
         ('lab_technician', _('Laboratory Technician')),
     ]
     
+    role = models.CharField(
+        max_length=20,
+        choices=Role.choices,
+        default=Role.PROVIDER,
+        help_text=_('High-level persona used for role-based access control.')
+    )
     user_type = models.CharField(
         max_length=20,
         choices=USER_TYPE_CHOICES,
@@ -53,6 +64,21 @@ class User(AbstractUser):
     
     def __str__(self):
         return f"{self.get_full_name()} ({self.get_user_type_display()})"
+
+    @property
+    def is_admin_role(self):
+        """Check if user has admin role."""
+        return self.role == self.Role.ADMIN
+
+    @property
+    def is_provider_role(self):
+        """Check if user has provider role."""
+        return self.role == self.Role.PROVIDER
+
+    @property
+    def is_patient_role(self):
+        """Check if user has patient role."""
+        return self.role == self.Role.PATIENT
 
 
 class Location(models.Model):
