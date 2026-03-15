@@ -651,3 +651,9 @@ cp env.example .env
 ---
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+
+## Project Structure
+- `/src`: Contains the primary source code.
+- `/public`: Static assets and public resources.
+- `/docs`: Additional project documentation.
+- `/tests`: Unit and integration tests.
