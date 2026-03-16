@@ -1,3 +1,13 @@
+## Installation Guide
+
+To install and run this project:
+
+1. Clone the repository
+2. Install project dependencies
+3. Run the application
+
+This guide helps contributors quickly set up the project environment.
+
 # OpenCare-Africa
 
 A comprehensive health informatics platform backend built with Django, designed specifically for healthcare management in Africa.
