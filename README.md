@@ -103,7 +103,11 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+# macOS
+open http://localhost:8000/
+
+# Windows
+start http://localhost:8000/
    ```
 
 7. **Access the application**
@@ -222,7 +226,11 @@ If you prefer to run the application locally without Docker:
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+# macOS
+open http://localhost:8000/
+
+# Windows
+start http://localhost:8000/
    ```
 
 ## 📊 API Documentation
