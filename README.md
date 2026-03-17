@@ -1,10 +1,10 @@
-# OpenCare-Africa
+# OpenCare-Core
 
 A comprehensive health informatics platform backend built with Django, designed specifically for healthcare management in Africa.
 
 ## 🏥 Project Overview
 
-OpenCare-Africa is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
+OpenCare-Core is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
 
 ## ✨ Features
 
@@ -28,7 +28,7 @@ OpenCare-Africa is a robust, scalable backend system for managing healthcare ope
 ## 🏗️ Architecture
 
 ```
-OpenCare-Africa/
+OpenCare-Core/
 ├── apps/                    # Django applications
 │   ├── core/               # Core models and utilities
 │   ├── patients/           # Patient management
@@ -39,8 +39,8 @@ OpenCare-Africa/
 │   └── api/                # API endpoints and viewsets
 ├── config/                 # Project configuration
 │   ├── settings/           # Environment-specific settings
-│   ├── urls.py            # Main URL configuration
-│   └── celery.py          # Celery configuration
+│   ├── urls.py             # Main URL configuration
+│   └── celery.py           # Celery configuration
 ├── templates/              # HTML templates
 ├── static/                 # Static files
 ├── media/                  # User-uploaded files
@@ -58,12 +58,12 @@ OpenCare-Africa/
 
 ### 🐳 Docker Setup (Recommended)
 
-This is the **recommended** way to run OpenCare-Africa as it ensures consistency across all environments.
+This is the **recommended** way to run OpenCare-Core as it ensures consistency across all environments.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Africa
+   git clone https://github.com/bos-com/OpenCare-Core.git
+   cd OpenCare-Core
    ```
 
 2. **Set up environment variables**
@@ -163,8 +163,8 @@ If you prefer to run the application locally without Docker:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Africa
+   git clone https://github.com/bos-com/OpenCare-Core.git
+   cd OpenCare-Core
    ```
 
 2. **Set up Python virtual environment**
@@ -650,4 +650,4 @@ cp env.example .env
 
 ---
 
-**OpenCare-Africa** - Empowering healthcare in Africa through technology.
+**OpenCare-Core** - Empowering healthcare in Africa through technology.
