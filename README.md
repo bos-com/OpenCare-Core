@@ -1,10 +1,10 @@
-# OpenCare-Africa
+# OpenCare-cora
 
 A comprehensive health informatics platform backend built with Django, designed specifically for healthcare management in Africa.
 
 ## 🏥 Project Overview
 
-OpenCare-Africa is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
+OpenCare-caore is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
 
 ## ✨ Features
 
@@ -58,12 +58,12 @@ OpenCare-Africa/
 
 ### 🐳 Docker Setup (Recommended)
 
-This is the **recommended** way to run OpenCare-Africa as it ensures consistency across all environments.
+This is the **recommended** way to run OpenCare-core as it ensures consistency across all environments.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Africa
+   git clone https://github.com/El-Fati/OpenCare-core.git
+   cd OpenCare-core
    ```
 
 2. **Set up environment variables**
@@ -163,8 +163,8 @@ If you prefer to run the application locally without Docker:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Africa
+   git clone https://github.com/El-Fati/OpenCare-core.git
+   cd OpenCare-core
    ```
 
 2. **Set up Python virtual environment**
