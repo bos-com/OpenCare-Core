@@ -2,10 +2,20 @@
 Patient serializers for OpenCare-Africa health system.
 """
 
+import re
+from datetime import date
+
 from rest_framework import serializers
 from django.utils.crypto import get_random_string
+from django.utils.translation import gettext_lazy as _
 from .models import Patient, PatientVisit, PatientMedicalHistory
 from apps.core.serializers import LocationSerializer, HealthFacilitySerializer, UserSerializer
+
+# Maximum plausible patient age in years
+MAX_PATIENT_AGE = 150
+
+# Phone number regex: optional leading +, then 9-15 digits
+PHONE_REGEX = re.compile(r'^\+?\d{9,15}$')
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -62,7 +72,15 @@ class PatientDetailSerializer(PatientSerializer):
 
 class PatientCreateSerializer(serializers.ModelSerializer):
     """
-    Serializer for creating new patients.
+    Serializer for creating new patients with comprehensive input validation.
+
+    Validates:
+    - first_name / last_name are not empty or whitespace-only
+    - date_of_birth is not in the future and represents a plausible age (0–150)
+    - phone_number matches E.164-like format (+, then 9-15 digits)
+    - email is well-formed when provided
+    - emergency_contact_phone matches the same phone format
+    - emergency_contact_name is required when a phone is supplied
     """
     class Meta:
         model = Patient
@@ -75,7 +93,99 @@ class PatientCreateSerializer(serializers.ModelSerializer):
             'insurance_number', 'payment_method', 'registered_facility',
             'occupation', 'education_level', 'religion', 'ethnicity'
         ]
-    
+
+    # ------------------------------------------------------------------
+    # Field-level validators
+    # ------------------------------------------------------------------
+
+    def validate_first_name(self, value):
+        """Ensure first name is not empty or whitespace-only."""
+        if not value or not value.strip():
+            raise serializers.ValidationError(
+                _("First name must not be empty.")
+            )
+        return value.strip()
+
+    def validate_last_name(self, value):
+        """Ensure last name is not empty or whitespace-only."""
+        if not value or not value.strip():
+            raise serializers.ValidationError(
+                _("Last name must not be empty.")
+            )
+        return value.strip()
+
+    def validate_date_of_birth(self, value):
+        """Ensure date of birth is not in the future and represents a
+        plausible age (between 0 and MAX_PATIENT_AGE years)."""
+        today = date.today()
+        if value > today:
+            raise serializers.ValidationError(
+                _("Date of birth cannot be in the future.")
+            )
+        age = (
+            today.year - value.year
+            - ((today.month, today.day) < (value.month, value.day))
+        )
+        if age > MAX_PATIENT_AGE:
+            raise serializers.ValidationError(
+                _("Date of birth implies an age greater than %(max_age)d years.")
+                % {"max_age": MAX_PATIENT_AGE}
+            )
+        return value
+
+    def validate_phone_number(self, value):
+        """Validate phone number format: optional '+' followed by 9-15 digits."""
+        cleaned = value.replace(" ", "").replace("-", "")
+        if not PHONE_REGEX.match(cleaned):
+            raise serializers.ValidationError(
+                _("Phone number must be in the format: +999999999. "
+                  "Between 9 and 15 digits allowed.")
+            )
+        return cleaned
+
+    def validate_email(self, value):
+        """Validate email format when provided (field is optional)."""
+        if value and not re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', value):
+            raise serializers.ValidationError(
+                _("Enter a valid email address.")
+            )
+        return value
+
+    def validate_emergency_contact_phone(self, value):
+        """Validate emergency contact phone format."""
+        if value:
+            cleaned = value.replace(" ", "").replace("-", "")
+            if not PHONE_REGEX.match(cleaned):
+                raise serializers.ValidationError(
+                    _("Emergency contact phone must be in the format: "
+                      "+999999999. Between 9 and 15 digits allowed.")
+                )
+            return cleaned
+        return value
+
+    # ------------------------------------------------------------------
+    # Cross-field / object-level validation
+    # ------------------------------------------------------------------
+
+    def validate(self, attrs):
+        """Cross-field validation for emergency contact consistency."""
+        ec_phone = attrs.get("emergency_contact_phone")
+        ec_name = attrs.get("emergency_contact_name", "").strip()
+
+        if ec_phone and not ec_name:
+            raise serializers.ValidationError({
+                "emergency_contact_name": _(
+                    "Emergency contact name is required when a phone number "
+                    "is provided."
+                )
+            })
+
+        return attrs
+
+    # ------------------------------------------------------------------
+    # Creation helper
+    # ------------------------------------------------------------------
+
     def _generate_patient_id(self) -> str:
         prefix = "PAT"
         random_id = get_random_string(8).upper()
