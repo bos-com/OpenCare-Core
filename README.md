@@ -651,3 +651,10 @@ cp env.example .env
 ---
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+
+### ✨ Key Features
+| Feature | Description |
+| :--- | :--- |
+| Patient Records | Digital management of patient history. |
+| Security | Role-based access control for medical staff. |
+| Pharmacy | Inventory tracking for essential medicines. |
