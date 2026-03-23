@@ -71,6 +71,9 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    # Copy environment template
    cp env.example .env
    
+   # Windows (PowerShell):
+   # Copy-Item env.example .env
+   
    # The .env file is already configured for Docker
    # No changes needed unless you want to customize settings
    ```
@@ -103,7 +106,8 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+   # macOS/Linux: open http://localhost:8000/
+   # Windows: start http://localhost:8000/
    ```
 
 7. **Access the application**
@@ -184,6 +188,9 @@ If you prefer to run the application locally without Docker:
    # Copy environment template
    cp env.example .env
    
+   # Windows (PowerShell):
+   # Copy-Item env.example .env
+   
    # Update .env for local development
    # Change DB_HOST=localhost and REDIS_HOST=localhost
    ```
@@ -222,7 +229,8 @@ If you prefer to run the application locally without Docker:
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+   # macOS/Linux: open http://localhost:8000/
+   # Windows: start http://localhost:8000/
    ```
 
 ## 📊 API Documentation
