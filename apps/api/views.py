@@ -48,7 +48,7 @@ class PatientViewSet(AuditLogMixin, viewsets.ModelViewSet):
     """
 
     permission_classes = [IsAuthenticated, RoleRequired]
-    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
+    required_roles = frozenset({User.Role.ADMIN, User.Role.DOCTOR, User.Role.RECEPTIONIST})
     queryset = (
         Patient.objects.select_related("location", "registered_facility")
         .prefetch_related("patientvisit_set")
@@ -132,7 +132,7 @@ class FacilityViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     permission_classes = [IsAuthenticated, RoleRequired]
-    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
+    required_roles = frozenset({User.Role.ADMIN, User.Role.DOCTOR, User.Role.RECEPTIONIST})
     queryset = HealthFacility.objects.select_related("location").all()
     serializer_class = HealthFacilitySerializer
     filterset_fields = ["facility_type", "location"]
@@ -146,7 +146,7 @@ class PatientVisitViewSet(AuditLogMixin, viewsets.ModelViewSet):
     """
 
     permission_classes = [IsAuthenticated, RoleRequired]
-    required_roles = frozenset({User.Role.ADMIN, User.Role.PROVIDER})
+    required_roles = frozenset({User.Role.ADMIN, User.Role.DOCTOR, User.Role.RECEPTIONIST})
     queryset = (
         PatientVisit.objects.select_related("patient", "facility", "attending_provider")
         .all()

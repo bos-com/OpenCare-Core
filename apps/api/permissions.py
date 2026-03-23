@@ -9,6 +9,8 @@ from typing import Iterable, Set
 from django.utils.translation import gettext_lazy as _
 from rest_framework.permissions import BasePermission
 
+from apps.core.models import User
+
 
 def _normalize_roles(roles: Iterable[str]) -> frozenset[str]:
     """Normalize role values to strings."""
@@ -19,6 +21,63 @@ def _normalize_roles(roles: Iterable[str]) -> frozenset[str]:
         else:
             normalized.add(str(role))
     return frozenset(normalized)
+
+
+class IsAdmin(BasePermission):
+    """
+    Allow requests only from users with Admin role or superusers.
+    """
+
+    def has_permission(self, request, view) -> bool:
+        user = request.user
+        if not user or not user.is_authenticated:
+            return False
+        if user.is_superuser:
+            return True
+        return getattr(user, "is_admin_role", False) or user.role == User.Role.ADMIN
+
+    def has_object_permission(self, request, view, obj) -> bool:
+        return self.has_permission(request, view)
+
+
+class IsDoctor(BasePermission):
+    """
+    Allow requests only from users with Doctor role, Admin role, or superusers.
+    """
+
+    def has_permission(self, request, view) -> bool:
+        user = request.user
+        if not user or not user.is_authenticated:
+            return False
+        if user.is_superuser:
+            return True
+        if getattr(user, "is_admin_role", False) or user.role == User.Role.ADMIN:
+            return True
+        return getattr(user, "is_doctor_role", False) or user.role == User.Role.DOCTOR
+
+    def has_object_permission(self, request, view, obj) -> bool:
+        return self.has_permission(request, view)
+
+
+class IsReceptionist(BasePermission):
+    """
+    Allow requests from users with Receptionist, Doctor, Admin roles, or superusers.
+    """
+
+    def has_permission(self, request, view) -> bool:
+        user = request.user
+        if not user or not user.is_authenticated:
+            return False
+        if user.is_superuser:
+            return True
+        if getattr(user, "is_admin_role", False) or user.role == User.Role.ADMIN:
+            return True
+        if getattr(user, "is_doctor_role", False) or user.role == User.Role.DOCTOR:
+            return True
+        return getattr(user, "is_receptionist_role", False) or user.role == User.Role.RECEPTIONIST
+
+    def has_object_permission(self, request, view, obj) -> bool:
+        return self.has_permission(request, view)
 
 
 class IsClinicalStaff(BasePermission):
