@@ -304,3 +304,19 @@ Your contributions help make healthcare better for millions of people across Afr
 ---
 
 **Together, we can build a healthier future for Africa!** 🩺🌍
+
+
+## Step-by-Step Contribution Guide
+
+1. Fork this repository to your GitHub account.
+2. Clone your fork to your local machine.
+3. Create a new branch using a descriptive name e.g. fix/issue-name.
+4. Make your changes and test them locally.
+5. Commit your changes with a clear message e.g. fix: correct broken link.
+6. Push your branch to GitHub.
+7. Open a Pull Request referencing the related issue.
+
+## Coding Standards
+- Follow PEP 8 style guidelines for Python code.
+- Write clear and descriptive commit messages.
+- Document any new functions or classes added.
