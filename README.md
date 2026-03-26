@@ -651,3 +651,4 @@ cp env.example .env
 ---
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+Updated setup guide
