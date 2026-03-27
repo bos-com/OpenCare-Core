@@ -649,6 +649,6 @@ cp env.example .env
 - African healthcare workers for inspiration
 
 ---
-
+update README with setup instructions
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
 Updated setup guide
