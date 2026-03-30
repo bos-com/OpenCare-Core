@@ -1,3 +1,13 @@
+---
+
+## 🛠 Installation Guide
+
+To get a local copy up and running, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/OpenCare-Core.git](https://github.com/your-username/OpenCare-Core.git)
+   
 # OpenCare-Africa
 
 A comprehensive health informatics platform backend built with Django, designed specifically for healthcare management in Africa.
@@ -6,6 +16,15 @@ A comprehensive health informatics platform backend built with Django, designed 
 
 OpenCare-Africa is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
 
+---
+
+## 🛠 Installation Guide
+
+To get a local copy up and running, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/OpenCare-Core.git](https://github.com/your-username/OpenCare-Core.git)
 ## ✨ Features
 
 ### Core Functionality
