@@ -651,3 +651,30 @@ cp env.example .env
 ---
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 🧪 API Testing Guide
+
+This section explains how to test the available API endpoints using `curl`.
+
+### 🔹 Base URL
+```bash
+http://localhost:8000
