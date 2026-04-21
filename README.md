@@ -62,7 +62,7 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
+   git clone https://github.com/bos-com/OpenCare-Core.git
    cd OpenCare-Africa
    ```
 
@@ -163,8 +163,8 @@ If you prefer to run the application locally without Docker:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Africa
+   git clone https://github.com/bos-com/OpenCare-Core.git
+   cd OpenCare-Core
    ```
 
 2. **Set up Python virtual environment**
