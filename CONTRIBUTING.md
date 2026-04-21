@@ -264,6 +264,9 @@ If you discover a security vulnerability, please:
 4. Allow time for the security team to respond
 
 ## Questions or Need Help?
+- Open an issue on GitHub
+- Tag it with the `question` label
+- The maintainers will respond within 72 hours
 
 ### Getting Help
 
