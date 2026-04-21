@@ -71,6 +71,9 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    # Copy environment template
    cp env.example .env
    
+   # Windows (PowerShell):
+   # Copy-Item env.example .env
+   
    # The .env file is already configured for Docker
    # No changes needed unless you want to customize settings
    ```
@@ -103,7 +106,8 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+   # macOS/Linux: open http://localhost:8000/
+   # Windows: start http://localhost:8000/
    ```
 
 7. **Access the application**
@@ -117,6 +121,7 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 - Start the stack via Docker or local development, then browse to http://localhost:8000/api/docs/ for interactive OpenAPI documentation.
 - Review sanitized response expectations and logging rules in [`docs/error-handling.md`](docs/error-handling.md) before exposing new endpoints.
 - Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see the error-handling guide for recommendations.
+- Follow the API test workflow in [`docs/api-testing.md`](docs/api-testing.md) for pre-PR verification.
 
 ### 🐳 Docker Services Overview
 
@@ -184,6 +189,9 @@ If you prefer to run the application locally without Docker:
    # Copy environment template
    cp env.example .env
    
+   # Windows (PowerShell):
+   # Copy-Item env.example .env
+   
    # Update .env for local development
    # Change DB_HOST=localhost and REDIS_HOST=localhost
    ```
@@ -222,7 +230,8 @@ If you prefer to run the application locally without Docker:
    curl http://localhost:8000/health/
    
    # Test the web interface
-   open http://localhost:8000/
+   # macOS/Linux: open http://localhost:8000/
+   # Windows: start http://localhost:8000/
    ```
 
 ## 📊 API Documentation
@@ -388,6 +397,7 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 - **Code Documentation**: Comprehensive docstrings
 - **Admin Interface**: Django admin for data management
 - **User Guides**: Available in `/docs/` directory
+- **API Testing Guide**: See [`docs/api-testing.md`](docs/api-testing.md) for endpoint verification strategy
 - **Patient Records**: See [`docs/patient-records.md`](docs/patient-records.md) for CRUD usage and security notes
 - **Audit Logging**: See [`docs/audit-logs.md`](docs/audit-logs.md) for PHI access tracking requirements
 - **Appointments**: See [`docs/appointments.md`](docs/appointments.md) for scheduling API usage and safeguards
