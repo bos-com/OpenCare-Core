@@ -121,6 +121,7 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 - Start the stack via Docker or local development, then browse to http://localhost:8000/api/docs/ for interactive OpenAPI documentation.
 - Review sanitized response expectations and logging rules in [`docs/error-handling.md`](docs/error-handling.md) before exposing new endpoints.
 - Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see the error-handling guide for recommendations.
+- Follow the API test workflow in [`docs/api-testing.md`](docs/api-testing.md) for pre-PR verification.
 
 ### 🐳 Docker Services Overview
 
@@ -396,6 +397,7 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 - **Code Documentation**: Comprehensive docstrings
 - **Admin Interface**: Django admin for data management
 - **User Guides**: Available in `/docs/` directory
+- **API Testing Guide**: See [`docs/api-testing.md`](docs/api-testing.md) for endpoint verification strategy
 - **Patient Records**: See [`docs/patient-records.md`](docs/patient-records.md) for CRUD usage and security notes
 - **Audit Logging**: See [`docs/audit-logs.md`](docs/audit-logs.md) for PHI access tracking requirements
 - **Appointments**: See [`docs/appointments.md`](docs/appointments.md) for scheduling API usage and safeguards
