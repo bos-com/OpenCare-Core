@@ -5,6 +5,7 @@ Thank you for your interest in contributing to OpenCare-Africa! We welcome contr
 ## Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
 - [How Can I Contribute?](#how-can-i-contribute)
 - [Getting Started](#getting-started)
 - [Development Workflow](#development-workflow)
@@ -13,11 +14,25 @@ Thank you for your interest in contributing to OpenCare-Africa! We welcome contr
 - [Documentation](#documentation)
 - [Security](#security)
 - [Questions or Need Help?](#questions-or-need-help)
+- [Feature Requests](#feature-requests)
+- [License](#license)
 
 ## Code of Conduct
 
 This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@opencare-africa.org](mailto:conduct@opencare-africa.org).
+## 🚀 Getting Started
 
+### Prerequisites
+- Python 3.11 or higher
+- Git
+- Docker (optional, but recommended)
+### Fork the Repository
+1. Go to https://github.com/bos-com/OpenCare-Core
+2. Click the "Fork" button (top right)
+3. Clone your fork:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/OpenCare-Core.git
+   cd OpenCare-Core
 ## How Can I Contribute?
 
 ### Reporting Bugs
