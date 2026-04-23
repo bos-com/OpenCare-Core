@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}OpenCare-Africa - Health Informatics Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row align-items-center py-5">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold text-primary mb-4">
+                OpenCare-Africa
+            </h1>
+            <p class="lead mb-4">
+                Empowering health systems across Africa with innovative technology solutions. 
+                Our comprehensive health informatics platform provides the tools needed to 
+                improve healthcare delivery, patient outcomes, and system efficiency.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'core:dashboard' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                    </a>
+                {% else %}
+                    <a href="{% url 'admin:login' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                {% endif %}
+                <a href="{% url 'core:about' %}" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="fas fa-info-circle me-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center">
+            <img src="{% static 'images/healthcare-africa.svg' %}" alt="Healthcare in Africa" class="img-fluid" style="max-width: 500px;">
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row py-5">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold">Platform Features</h2>
+            <p class="lead text-muted">Comprehensive tools for modern healthcare management</p>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-users fa-2x text-primary"></i>
+                    </div>
+                    <h5 class="card-title">Patient Management</h5>
+                    <p class="card-text">
+                        Comprehensive patient registration, medical history tracking, 
+                        and visit management with FHIR-compliant data structures.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-user-md fa-2x text-success"></i>
+                    </div>
+                    <h5 class="card-title">Health Worker Management</h5>
+                    <p class="card-text">
+                        Manage healthcare professionals, track qualifications, 
+                        and monitor performance across facilities.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-hospital fa-2x text-info"></i>
+                    </div>
+                    <h5 class="card-title">Facility Management</h5>
+                    <p class="card-text">
+                        Comprehensive health facility management including 
+                        services, operating hours, and resource allocation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-chart-bar fa-2x text-warning"></i>
+                    </div>
+                    <h5 class="card-title">Analytics & Reporting</h5>
+                    <p class="card-text">
+                        Advanced analytics for health trends, disease surveillance, 
+                        and performance metrics with interactive dashboards.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-mobile-alt fa-2x text-danger"></i>
+                    </div>
+                    <h5 class="card-title">Mobile Support</h5>
+                    <p class="card-text">
+                        Mobile-first design for community health workers 
+                        with offline capabilities and real-time synchronization.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="bg-secondary bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
+                        <i class="fas fa-shield-alt fa-2x text-secondary"></i>
+                    </div>
+                    <h5 class="card-title">Security & Compliance</h5>
+                    <p class="card-text">
+                        HIPAA and GDPR compliant with role-based access control, 
+                        audit trails, and encrypted data transmission.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Section -->
+    <div class="row py-5 bg-light rounded">
+        <div class="col-12 text-center mb-4">
+            <h2 class="display-5 fw-bold">Developer-Friendly API</h2>
+            <p class="lead text-muted">RESTful API with comprehensive documentation</p>
+        </div>
+        <div class="col-md-8 mx-auto">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="card-title">OpenCare-Africa API</h5>
+                            <p class="card-text">
+                                Access our comprehensive health data through our RESTful API. 
+                                Built with Django REST Framework and following FHIR standards 
+                                for healthcare interoperability.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>FHIR-compliant data structures</li>
+                                <li><i class="fas fa-check text-success me-2"></i>JWT authentication</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Comprehensive documentation</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Rate limiting and monitoring</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="/api/docs/" class="btn btn-primary btn-lg">
+                                <i class="fas fa-book me-2"></i>View API Docs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row py-5">
+        <div class="col-12 text-center">
+            <h2 class="display-5 fw-bold mb-4">Ready to Transform Healthcare?</h2>
+            <p class="lead mb-4">
+                Join the OpenCare-Africa community and help build a healthier future for Africa.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{% url 'core:contact' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                    <i class="fas fa-envelope me-2"></i>Get in Touch
+                </a>
+                <a href="https://github.com/your-org/OpenCare-Africa" class="btn btn-outline-dark btn-lg px-4" target="_blank">
+                    <i class="fab fa-github me-2"></i>View on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  # Django Web Application
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - opencare_network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    environment:
+      - POSTGRES_DB=opencare_africa
+      - POSTGRES_USER=opencare_user
+      - POSTGRES_PASSWORD=opencare_password
+    ports:
+      - "5432:5432"
+    networks:
+      - opencare_network
+
+  # Redis for Caching and Celery
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - opencare_network
+
+  # Celery Worker
+  celery:
+    build: .
+    command: celery -A healthcare_backend worker -l info
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=True
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - opencare_network
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build: .
+    command: celery -A healthcare_backend beat -l info
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=True
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - opencare_network
+
+  # Metabase for Analytics
+  metabase:
+    image: metabase/metabase:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_FILE=/metabase-data/metabase.db
+      - MB_DB_HOST=db
+      - MB_DB_USER=opencare_user
+      - MB_DB_PASS=opencare_password
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      - db
+    networks:
+      - opencare_network
+
+  # Apache Superset for Advanced Analytics
+  superset:
+    image: apache/superset:latest
+    ports:
+      - "8088:8088"
+    environment:
+      - SUPERSET_SECRET_KEY=your-superset-secret-key
+      - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
+    volumes:
+      - superset_data:/app/superset_home
+    depends_on:
+      - db
+    networks:
+      - opencare_network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - web
+    networks:
+      - opencare_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  metabase_data:
+  superset_data:
+  static_volume:
+  media_volume:
+
+networks:
+  opencare_network:
+    driver: bridge
