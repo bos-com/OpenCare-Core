@@ -116,7 +116,8 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 
 - Start the stack via Docker or local development, then browse to http://localhost:8000/api/docs/ for interactive OpenAPI documentation.
 - Review sanitized response expectations and logging rules in [`docs/error-handling.md`](docs/error-handling.md) before exposing new endpoints.
-- Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see the error-handling guide for recommendations.
+- Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see [`docs/api-testing.md`](docs/api-testing.md) for API testing guidance.
+- Review [`SECURITY.md`](SECURITY.md) before reporting vulnerabilities or changing authentication, authorization, or sensitive patient-data workflows.
 
 ### 🐳 Docker Services Overview
 
