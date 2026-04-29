@@ -1,72 +1,53 @@
 # Contributing to OpenCare-Core
 
-Thank you for your interest in contributing to OpenCare-Core! We are excited to have you join our community and help improve healthcare systems in Africa.
+Thank you for considering contributing to OpenCare-Core! We welcome contributions from the community.
 
-## 🚀 Getting Started
+## How to Contribute
 
-To contribute to this project, please follow these steps:
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
+   ```bash
+   git clone https://github.com/your-username/OpenCare-Core.git
+   cd OpenCare-Core
+   ```
+3. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. **Make your changes** following the project's coding standards
+5. **Test your changes** thoroughly
+6. **Commit your changes** with a clear and descriptive message
+7. **Push to your fork**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+8. **Open a Pull Request** against the `main` branch of the original repository
 
-### 1. Fork and Clone
-Fork the repository on GitHub and clone your fork locally:
+## Reporting Issues
 
-```bash
-git clone https://github.com/your-username/OpenCare-Core.git
-cd OpenCare-Core
-```
+If you find a bug or have a feature request, please open an issue on the GitHub repository. When reporting a bug, include:
+- A clear description of the problem
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Any relevant screenshots or logs
 
-Add the original repository as a remote named `upstream`:
-```bash
-git remote add upstream https://github.com/bos-com/OpenCare-Core.git
-```
+## Code Style
 
-### 2. Branching Strategy
-Always create a new branch for your work. We use the following naming convention:
+- Follow PEP 8 for Python code
+- Write clear, meaningful commit messages
+- Add comments for complex logic
+- Ensure your code is well-tested
 
-- `feature/your-feature-name` for new features
-- `fix/your-fix-name` for bug fixes
-- `docs/your-topic` for documentation updates
+## Development Setup
 
-```bash
-git checkout -b feature/amazing-new-feature
-```
+Please see the README.md for detailed setup instructions.
 
-### 3. Commit Message Style
-We follow the **Conventional Commits** specification. This helps us generate automated changelogs.
+## License
 
-Format: `<type>(<scope>): <description>`
+By contributing to OpenCare-Core, you agree that your contributions will be licensed under the MIT License.
 
-**Types:**
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation only changes
-- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc)
-- `refactor`: A code change that neither fixes a bug nor adds a feature
-- `test`: Adding missing tests or correcting existing tests
-- `chore`: Changes to the build process or auxiliary tools and libraries
+## Questions?
 
-**Example:** `feat(patients): add ability to search patients by ID`
+If you have any questions, feel free to open an issue or reach out to the maintainers.
 
-### 4. Pull Request (PR) Process
-When you are ready to submit your changes:
-
-1.  **Push** your branch to your fork:
-    ```bash
-    git push origin feature/amazing-new-feature
-    ```
-2.  **Open a PR** on GitHub.
-3.  **Description**: In the PR description, explain what you changed and why.
-4.  **Link Issues**: If your PR fixes an open issue, link it using keywords like `Closes #123`.
-5.  **Review**: A maintainer will review your code. Address any feedback by pushing additional commits to your branch.
-
----
-
-## 🛠️ Development Setup
-
-For detailed instructions on setting up your local environment, please refer to the [README.md](README.md#🚀-quick-start).
-
-## ⚖️ Code of Conduct
-By participating in this project, you agree to abide by our Code of Conduct.
-
----
-
-**Together, we can build a healthier future for Africa!** 🩺🌍
+Happy coding! 🚀
