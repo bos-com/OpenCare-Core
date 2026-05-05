@@ -63,7 +63,7 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
 1. **Clone the repository**
    ```bash
    git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Core
+   cd OpenCare-Africa
    ```
 
 2. **Set up environment variables**
@@ -112,6 +112,12 @@ This is the **recommended** way to run OpenCare-Africa as it ensures consistency
    - **API Documentation**: http://localhost:8000/api/docs/
    - **Health Check**: http://localhost:8000/health/
 
+## 📘 Viewing API Docs
+
+- Start the stack via Docker or local development, then browse to http://localhost:8000/api/docs/ for interactive OpenAPI documentation.
+- Review sanitized response expectations and logging rules in [`docs/error-handling.md`](docs/error-handling.md) before exposing new endpoints.
+- Extend automated tests to cover both happy-path and error scenarios when updating API behavior; see the error-handling guide for recommendations.
+
 ### 🐳 Docker Services Overview
 
 The Docker setup includes the following services:
@@ -158,7 +164,7 @@ If you prefer to run the application locally without Docker:
 1. **Clone the repository**
    ```bash
    git clone https://github.com/bos-com/OpenCare-Africa.git
-   cd OpenCare-Core
+   cd OpenCare-Africa
    ```
 
 2. **Set up Python virtual environment**
@@ -235,6 +241,7 @@ The API is fully documented using OpenAPI/Swagger:
 - **Facilities**: `/api/v1/facilities/`
 - **Health Records**: `/api/v1/records/`
 - **Analytics**: `/api/v1/analytics/`
+- **Appointments**: `/api/v1/appointments/`
 
 ## 🗄️ Database Schema
 
@@ -381,6 +388,9 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 - **Code Documentation**: Comprehensive docstrings
 - **Admin Interface**: Django admin for data management
 - **User Guides**: Available in `/docs/` directory
+- **Patient Records**: See [`docs/patient-records.md`](docs/patient-records.md) for CRUD usage and security notes
+- **Audit Logging**: See [`docs/audit-logs.md`](docs/audit-logs.md) for PHI access tracking requirements
+- **Appointments**: See [`docs/appointments.md`](docs/appointments.md) for scheduling API usage and safeguards
 
 ## 🤝 Contributing
 

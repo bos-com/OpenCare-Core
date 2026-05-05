@@ -19,11 +19,11 @@ class UserAdmin(BaseUserAdmin):
     Admin interface for User model.
     """
     list_display = [
-        'username', 'email', 'first_name', 'last_name', 'user_type',
+        'username', 'email', 'first_name', 'last_name', 'role', 'user_type',
         'phone_number', 'is_active', 'date_joined', 'last_login'
     ]
     list_filter = [
-        'user_type', 'is_active', 'is_staff', 'is_superuser',
+        'role', 'user_type', 'is_active', 'is_staff', 'is_superuser',
         'date_joined', 'last_login'
     ]
     search_fields = ['username', 'first_name', 'last_name', 'email', 'phone_number']
@@ -39,7 +39,7 @@ class UserAdmin(BaseUserAdmin):
         }),
         (_('Professional info'), {
             'fields': (
-                'user_type', 'license_number', 'specialization',
+                'role', 'user_type', 'license_number', 'specialization',
                 'years_of_experience'
             )
         }),
@@ -57,7 +57,7 @@ class UserAdmin(BaseUserAdmin):
             'classes': ('wide',),
             'fields': (
                 'username', 'email', 'password1', 'password2',
-                'first_name', 'last_name', 'user_type'
+                'first_name', 'last_name', 'role', 'user_type'
             ),
         }),
     )

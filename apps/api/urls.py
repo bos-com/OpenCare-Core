@@ -11,11 +11,13 @@ app_name = 'api'
 
 # Create a router and register our viewsets with it
 router = DefaultRouter()
-router.register(r'patients', views.PatientViewSet)
-router.register(r'health-workers', views.HealthWorkerViewSet)
-router.register(r'facilities', views.FacilityViewSet)
-router.register(r'visits', views.PatientVisitViewSet)
-router.register(r'records', views.HealthRecordViewSet)
+router.register(r'patients', views.PatientViewSet, basename='patients')
+router.register(r'health-workers', views.HealthWorkerViewSet, basename='health-workers')
+router.register(r'facilities', views.FacilityViewSet, basename='facilities')
+router.register(r'visits', views.PatientVisitViewSet, basename='visits')
+router.register(r'records', views.HealthRecordViewSet, basename='records')
+router.register(r'audit-logs', views.AuditTrailViewSet, basename='audit-logs')
+router.register(r'appointments', views.AppointmentViewSet, basename='appointment')
 
 urlpatterns = [
     # API v1 endpoints

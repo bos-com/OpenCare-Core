@@ -3,6 +3,7 @@ Patient serializers for OpenCare-Africa health system.
 """
 
 from rest_framework import serializers
+from django.utils.crypto import get_random_string
 from .models import Patient, PatientVisit, PatientMedicalHistory
 from apps.core.serializers import LocationSerializer, HealthFacilitySerializer, UserSerializer
 
@@ -75,10 +76,17 @@ class PatientCreateSerializer(serializers.ModelSerializer):
             'occupation', 'education_level', 'religion', 'ethnicity'
         ]
     
-    def validate_patient_id(self, value):
-        if Patient.objects.filter(patient_id=value).exists():
-            raise serializers.ValidationError("Patient ID already exists.")
-        return value
+    def _generate_patient_id(self) -> str:
+        prefix = "PAT"
+        random_id = get_random_string(8).upper()
+        return f"{prefix}-{random_id}"
+    
+    def create(self, validated_data):
+        patient_id = self._generate_patient_id()
+        while Patient.objects.filter(patient_id=patient_id).exists():
+            patient_id = self._generate_patient_id()
+        validated_data["patient_id"] = patient_id
+        return Patient.objects.create(**validated_data)
 
 
 class PatientVisitSerializer(serializers.ModelSerializer):
