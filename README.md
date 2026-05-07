@@ -621,3 +621,12 @@ cp env.example .env
 
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+
+## 📝 Contributor Quick Guide
+
+If you want to contribute to OpenCare-Africa:
+
+1. **Fork this repository** to your own GitHub account.
+2. **Create a new branch** with a descriptive name:
+   ```bash
+   git checkout -b docs/setup-instructions
