@@ -621,3 +621,89 @@ cp env.example .env
 
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+ ## 📊 API Documentation
+
+ The API is fully documented using OpenAPI/Swagger:
+
+ - **Swagger UI**: `/api/docs/`
+ - **ReDoc**: `/api/redoc/`
+ - **OpenAPI Schema**: `/api/schema/`
+
++## 🧪 API Testing
++
++This section provides examples for testing key API endpoints using `curl`.
++
++### ✅ Health Check
++
++Verify that the system is running:
++
++```bash
++curl http://localhost:8000/health/
++```
++
++Expected response:
++```json
++{
++  "status": "ok"
++}
++```
++
++### 🔐 Authentication
++
++Most endpoints require JWT authentication.
++
++#### Obtain Access Token
++
++```bash
++curl -X POST http://localhost:8000/api/v1/auth/login/ \
++  -H "Content-Type: application/json" \
++  -d '{
++    "email": "your_email@example.com",
++    "password": "your_password"
++  }'
++```
++
++Response:
++```json
++{
++  "access": "your_access_token",
++  "refresh": "your_refresh_token"
++}
++```
++
++#### Use Token
++
++Include the token in request headers:
++
++```bash
++-H "Authorization: Bearer <your_access_token>"
++```
++
++### 📌 Example Requests
++
++#### Get Patients
++
++```bash
++curl -X GET http://localhost:8000/api/v1/patients/ \
++  -H "Authorization: Bearer <your_access_token>"
++```
++
++#### Get Health Workers
++
++```bash
++curl -X GET http://localhost:8000/api/v1/health-workers/ \
++  -H "Authorization: Bearer <your_access_token>"
++```
++
++#### Get Facilities
++
++```bash
++curl -X GET http://localhost:8000/api/v1/facilities/ \
++  -H "Authorization: Bearer <your_access_token>"
++```
++
++### 🧠 Notes
++
++- Ensure the server is running before testing endpoints  
++- Replace placeholder values with actual credentials  
++- Use `/api/docs/` for interactive API exploration  
