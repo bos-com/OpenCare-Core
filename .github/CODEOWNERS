@@ -1,0 +1,50 @@
+# =========================================
+# GLOBAL DEFAULT (MAINTAINERS)
+# =========================================
+# Maintainers review everything by default
+* @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+
+
+# =========================================
+# CORE APPLICATION (DEV TEAM)
+# =========================================
+# Dev team owns product code
+/apps/ @bos-com/bosc-opencare-core-maintainer
+/templates/ @bos-com/bosc-opencare-core-maintainer
+
+
+# =========================================
+# MAINTAINERS (HIGH-TRUST AREAS)
+# =========================================
+# GitHub workflows, CI/CD, automation
+/.github/ @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+
+# Protect CODEOWNERS itself
+.github/CODEOWNERS @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+
+# Security
+SECURITY.md @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+.env.example @bos-com/bosc-opencare-core-maintainer
+/env.example @bos-com/bosc-opencare-core-maintainer
+
+# Core project configuration
+/config/ @bos-com/bosc-opencare-core-maintainer
+manage.py @bos-com/bosc-opencare-core-maintainer
+
+# Dependencies
+requirements.txt @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+requirements-dev.txt @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+pyproject.toml @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+
+# Deployment / Infra
+Dockerfile @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+docker-compose.yml @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+/scripts/ @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+
+
+# =========================================
+# SHARED OWNERSHIP
+# =========================================
+/docs/ @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+README.md @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer
+CONTRIBUTING.md @bos-com/github-maintainers @bos-com/bosc-opencare-core-maintainer

@@ -103,6 +103,10 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
         if facility and appointments.filter(facility=facility).exists():
             raise serializers.ValidationError({"facility": _("Facility already has an appointment in this window.")})
 
+        # Additional validation: check if appointment is in the past
+        if start and start < timezone.now():
+            raise serializers.ValidationError({"start_time": _("Cannot schedule appointments in the past.")})
+
         return attrs
 
     def validate_provider(self, value):

@@ -1,0 +1,76 @@
+name: ✨ Feature Request
+description: Propose a new feature or enhancement for OpenCare-Core
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an enhancement! We appreciate ideas that help us improve OpenCare-Core.
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: "Users currently cannot... which makes it difficult to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: How should this feature work?
+      placeholder: "We should implement... by..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Feature Area
+      description: What part of the system would this affect?
+      options:
+        - API
+        - Authentication
+        - Patients
+        - Health Workers
+        - Facilities
+        - Records
+        - Analytics
+        - Appointments
+        - Documentation
+        - CI/CD
+        - Security
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other approaches did you consider?
+      placeholder: "Option A would... but... Option B would..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other context, links, or research that might be helpful
+      placeholder: "Related issues: #123, #456..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: This feature aligns with the project scope
+          required: true

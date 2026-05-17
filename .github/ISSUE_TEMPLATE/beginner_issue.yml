@@ -1,0 +1,75 @@
+name: 🟢 Beginner Issue
+description: Small, well-scoped tasks perfect for new contributors
+title: "beginner: "
+labels: ["beginner"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Beginner Issue Guidelines
+        
+        ✅ **Good beginner tasks have these characteristics:**
+        - Small in scope and well-defined
+        - Do not require deep architecture knowledge
+        - Have clear expected outcomes
+        - Can be completed with focused effort
+        - Include sufficient documentation/examples to understand context
+        
+        ❌ **Avoid:**
+        - Vague or open-ended tasks
+        - Tasks requiring major refactoring
+        - Tasks that span multiple systems
+        - Undocumented or complex architectural decisions
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Task Summary
+      description: Clear, concise description of what needs to be done.
+      placeholder: "Add validation for patient email field in the API"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-change
+    attributes:
+      label: Expected Change
+      description: What should the code or behavior look like after completion?
+      placeholder: "The patient email field should validate against RFC 5322 standards"
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-area
+    attributes:
+      label: Files or Area Likely Affected
+      description: Which files or modules will likely need changes?
+      placeholder: |
+        - `apps/patients/models.py`
+        - `apps/patients/serializers.py`
+        - Related test files
+    validations:
+      required: true
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources / Documentation
+      description: Links to relevant docs, similar code, or context that will help
+      placeholder: |
+        - Existing email validation in: apps/core/validators.py
+        - Related issue: #123
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Issue Checklist
+      options:
+        - label: This task is small and well-scoped
+          required: true
+        - label: This task is suitable for a new contributor without deep architecture knowledge
+          required: true
+        - label: Acceptance criteria are clear and measurable
+          required: true

@@ -1,0 +1,91 @@
+name: 🟡 Intermediate Issue
+description: Tasks requiring some familiarity with the codebase and patterns
+title: "intermediate: "
+labels: ["intermediate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Intermediate Issue Guidelines
+        
+        ✅ **Good intermediate tasks have these characteristics:**
+        - Clearly bounded scope but may touch multiple files or modules
+        - Require understanding of existing patterns and architecture
+        - May involve writing or updating tests
+        - May require refactoring or optimization
+        - Expected to take meaningful effort but not weeks of work
+        
+        ℹ️ **Context matters:**
+        - Explain why this task exists
+        - Link to related features or architecture decisions
+        - Identify any non-obvious dependencies
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Task Summary
+      description: What needs to be accomplished?
+      placeholder: "Refactor appointment notifications to use async Celery tasks"
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-context
+    attributes:
+      label: Technical Context
+      description: Why is this needed? What's the current behavior?
+      placeholder: |
+        Currently, appointment notifications are sent synchronously in the API request handler, which blocks the response. 
+        We need to move this to async tasks to prevent timeouts and improve response time.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: Expected Outcome
+      description: What will be different after this is completed?
+      placeholder: |
+        - Notifications sent via Celery task queue
+        - API response returns immediately
+        - Notifications are retryable if delivery fails
+        - Tests cover happy path and failure scenarios
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-approach
+    attributes:
+      label: Suggested Approach
+      description: How might you tackle this? (not prescriptive, for guidance)
+      placeholder: |
+        1. Create a Celery task in apps/appointments/tasks.py
+        2. Update the notification handler to dispatch the task
+        3. Update tests to verify task creation
+        4. Consider retry logic and error handling
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Links to related code, issues, or documentation
+      placeholder: |
+        - Existing Celery setup: config/celery.py
+        - Similar async pattern: apps/analytics/tasks.py
+        - Related issue: #456
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Issue Checklist
+      options:
+        - label: Scope is clearly defined with bounded changes
+          required: true
+        - label: Expected behavior and testing expectations are documented
+          required: true
+        - label: Context is sufficient for someone familiar with the codebase
+          required: true

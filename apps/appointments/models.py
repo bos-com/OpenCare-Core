@@ -66,3 +66,50 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.patient} with {self.provider} on {self.start_time:%Y-%m-%d %H:%M}"
+
+    def check_conflicts(self, exclude_pk=None):
+        """
+        Check for scheduling conflicts with existing appointments.
+        
+        Returns a dict with conflict information if conflicts exist.
+        """
+        from django.db.models import Q
+        
+        active_statuses = [self.Status.SCHEDULED, self.Status.NO_SHOW]
+        query = Q(
+            status__in=active_statuses,
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
+        )
+        
+        if exclude_pk:
+            query &= ~Q(pk=exclude_pk)
+        
+        conflicts = Appointment.objects.filter(query)
+        
+        provider_conflicts = conflicts.filter(provider=self.provider)
+        patient_conflicts = conflicts.filter(patient=self.patient)
+        facility_conflicts = conflicts.filter(facility=self.facility)
+        
+        result = {}
+        if provider_conflicts.exists():
+            result['provider'] = list(provider_conflicts.values('id', 'start_time', 'end_time', 'patient__first_name', 'patient__last_name'))
+        if patient_conflicts.exists():
+            result['patient'] = list(patient_conflicts.values('id', 'start_time', 'end_time', 'provider__first_name', 'provider__last_name'))
+        if facility_conflicts.exists():
+            result['facility'] = list(facility_conflicts.values('id', 'start_time', 'end_time', 'patient__first_name', 'provider__first_name'))
+        
+        return result if result else None
+
+    @property
+    def duration_minutes(self):
+        """Calculate appointment duration in minutes."""
+        if self.start_time and self.end_time:
+            return int((self.end_time - self.start_time).total_seconds() / 60)
+        return 0
+
+    @property
+    def is_upcoming(self):
+        """Check if appointment is in the future."""
+        from django.utils import timezone
+        return self.start_time > timezone.now() and self.status == self.Status.SCHEDULED

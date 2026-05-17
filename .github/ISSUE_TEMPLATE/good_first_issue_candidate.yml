@@ -1,0 +1,79 @@
+name: 🎯 Good First Issue Candidate
+description: Potential good first issue that needs maintainer refinement
+title: "gfi-candidate: "
+labels: ["good-first-issue-candidate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Good First Issue Candidate Guidelines
+        
+        ℹ️ **What is a candidate?**
+        - This template is for proposing tasks that *may* become a `good first issue`
+        - A candidate is **not automatically** labeled as a good first issue
+        - Maintainers will review and refine it before applying the `good first issue` label
+        - The goal is to identify teachable, low-risk, high-value tasks for newcomers
+        
+        ✅ **Characteristics of good candidates:**
+        - Small and well-scoped
+        - Low risk of breaking existing functionality
+        - Clearly explained with good context
+        - Suitable for someone new to the codebase
+        - Doesn't require extensive architectural knowledge
+
+  - type: textarea
+    id: proposed-task
+    attributes:
+      label: Proposed Task
+      description: What would this good first issue be?
+      placeholder: "Add a simple validation to prevent negative patient ages in the API"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-beginner-friendly
+    attributes:
+      label: Why This Would Be Good for Beginners
+      description: What makes this task approachable for newcomers?
+      placeholder: |
+        - Touches only one or two files
+        - Can be understood without deep architecture knowledge
+        - Has clear success criteria
+        - Provides exposure to validation patterns used throughout the project
+    validations:
+      required: true
+
+  - type: textarea
+    id: needs-clarification
+    attributes:
+      label: What Needs Clarification Before Final Labeling
+      description: What questions should maintainers address before it becomes a good first issue?
+      placeholder: |
+        - Should this validation also apply to the admin interface?
+        - Are there existing age validation tests to reference?
+        - Should we validate on the model or serializer?
+    validations:
+      required: false
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Helpful Resources
+      description: Links that would help someone get started
+      placeholder: |
+        - Similar validation example: apps/core/validators.py
+        - Related tests: apps/patients/tests/test_models.py
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Issue Checklist
+      options:
+        - label: This task appears low-risk and won't break existing functionality
+          required: true
+        - label: The task can be explained clearly to a newcomer
+          required: true
+        - label: I understand this requires maintainer review before becoming a good first issue
+          required: true

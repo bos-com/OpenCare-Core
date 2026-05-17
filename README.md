@@ -394,12 +394,11 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
+We welcome contributions from the community! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions on:
+- How to fork and clone the repository.
+- Our branching strategy.
+- Our commit message style.
+- How to submit a Pull Request.
 
 ### Development Guidelines
 - Follow PEP 8 style guidelines
@@ -620,34 +619,5 @@ cp env.example .env
 - **Discussions**: Use GitHub Discussions for questions
 - **Email**: Contact the development team
 
-## 🗺️ Roadmap
-
-### Phase 1 (Current)
-- ✅ Core backend infrastructure
-- ✅ Patient management system
-- ✅ Health worker management
-- ✅ Facility management
-- ✅ Basic API endpoints
-
-### Phase 2 (Next)
-- 🔄 Advanced analytics dashboard
-- 🔄 Mobile API optimization
-- 🔄 Integration with external systems
-- 🔄 Advanced reporting features
-
-### Phase 3 (Future)
-- 📋 AI-powered health insights
-- 📋 Telemedicine integration
-- 📋 Advanced data visualization
-- 📋 Multi-language support
-
-## 🙏 Acknowledgments
-
-- Django community for the excellent framework
-- Healthcare professionals for domain expertise
-- Open source contributors for various packages
-- African healthcare workers for inspiration
-
----
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.

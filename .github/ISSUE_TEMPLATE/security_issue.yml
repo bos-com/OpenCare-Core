@@ -1,0 +1,78 @@
+name: 🔒 Security Issue
+description: Report a security vulnerability or concern
+title: "security: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **IMPORTANT: Security Reporting Guidelines**
+        
+        - **DO NOT** include secrets, credentials, private keys, or tokens
+        - **DO NOT** include exploit instructions or proof-of-concept code
+        - **DO NOT** include sensitive user data or personally identifiable information (PII)
+        
+        🔐 **For sensitive vulnerabilities:** Please report through the security policy instead:
+        https://github.com/bos-com/OpenCare-Core/security/policy
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Vulnerability Summary
+      description: Brief description of the security issue.
+      placeholder: "There is a potential... vulnerability in..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How severe do you consider this issue?
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-component
+    attributes:
+      label: Affected Component
+      description: Which part of the system is affected? (e.g., Authentication, API, Records)
+      placeholder: "The issue affects..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What could be the impact if this vulnerability is exploited?
+      placeholder: "If exploited, an attacker could..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: remediation
+    attributes:
+      label: Suggested Remediation (Optional)
+      description: Do you have any suggestions for fixing this issue?
+      placeholder: "This could be fixed by..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have NOT included secrets, API keys, or exploit instructions
+          required: true
+        - label: I have NOT included sensitive user data or PII
+          required: true
+        - label: This is not a publicly known, unpatched critical vulnerability (if yes, report privately)
+          required: true

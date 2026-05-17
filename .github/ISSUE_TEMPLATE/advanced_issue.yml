@@ -1,0 +1,123 @@
+name: 🔴 Advanced Issue
+description: Complex tasks affecting architecture, security, performance, or multiple systems
+title: "advanced: "
+labels: ["advanced"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Advanced Issue Guidelines
+        
+        ⚠️ **Advanced issues involve:**
+        - Architectural decisions or refactoring
+        - Security or performance implications
+        - Changes spanning multiple systems or modules
+        - Design patterns or infrastructure changes
+        - Requires deep project understanding and careful planning
+        
+        🎯 **Requirements for advanced issues:**
+        - Thorough background and context
+        - Clear identification of risks and trade-offs
+        - Detailed acceptance criteria
+        - May require design review or RFC process
+        - Maintainer involvement recommended
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Task Summary
+      description: High-level description of what needs to be accomplished.
+      placeholder: "Implement multi-tenant isolation for healthcare data"
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Background & Context
+      description: Why is this being done? What problem does it solve?
+      placeholder: |
+        OpenCare-Core is currently single-tenant. To support multiple healthcare organizations,
+        we need to implement data isolation at the database level. This affects authentication,
+        authorization, API responses, and potentially audit logging.
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-scope
+    attributes:
+      label: Technical Scope
+      description: What systems/modules will be affected? Which layers need changes?
+      placeholder: |
+        **Database Layer:**
+        - Add organization_id foreign key to all relevant models
+        - Update querysets to filter by current organization
+        
+        **API Layer:**
+        - Authentication must determine user's organization
+        - Serializers must filter nested resources by organization
+        
+        **Security:**
+        - Cross-organization data access must be prevented
+        - Tests must verify isolation
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks-tradeoffs
+    attributes:
+      label: Risks & Trade-offs
+      description: What could go wrong? What's the trade-off vs. alternatives?
+      placeholder: |
+        **Risks:**
+        - Database migration complexity (multiple orgs may already exist)
+        - Performance impact of additional filtering
+        - Backward compatibility with existing clients
+        
+        **Trade-offs:**
+        - Row-level security in database vs. application-level filtering
+        - Schema changes vs. using a separate database per tenant
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Detailed Acceptance Criteria
+      description: What must be true for this to be complete and correct?
+      placeholder: |
+        - [ ] All models have organization_id and are properly isolated
+        - [ ] API endpoints return only organization-scoped data
+        - [ ] Cross-organization access attempts are rejected with 403
+        - [ ] All existing tests pass; new tests cover multi-tenant scenarios
+        - [ ] Performance benchmarks show acceptable overhead (<5%)
+        - [ ] Documentation updated with multi-tenant architecture
+        - [ ] Migration path documented for existing single-tenant deployments
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-resources
+    attributes:
+      label: Related Resources & References
+      description: Links to design docs, RFCs, related issues, architecture guides
+      placeholder: |
+        - Design RFC: #proposal-123
+        - Related issue: #789
+        - Similar implementation: https://example.com/docs
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Issue Checklist
+      options:
+        - label: Architectural impact has been thoroughly considered
+          required: true
+        - label: Security and performance implications are documented
+          required: true
+        - label: Acceptance criteria are detailed and measurable
+          required: true
+        - label: Risks and trade-offs have been identified
+          required: true
