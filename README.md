@@ -5,6 +5,39 @@ A comprehensive health informatics platform backend built with Django, designed 
 ## 🏥 Project Overview
 
 OpenCare-Africa is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
+## 🏥 OpenCare-Core System Overview
+
+OpenCare-Core is a healthcare management system designed to streamline hospital operations, improve patient care, and centralize medical records.
+
+---
+
+## 🧩 Key Modules
+
+### 1. Patient Management
+Handles patient registration, profiles, and medical history tracking.
+
+### 2. Appointment System
+Allows scheduling, updating, and managing patient appointments.
+
+### 3. Billing Module
+Manages invoices, payments, and billing records.
+
+### 4. Medical Records
+Stores diagnosis history, treatments, and prescriptions.
+
+---
+
+## 🔄 Healthcare Workflow
+
+Patient Registration → Appointment Booking → Consultation → Diagnosis → Billing → Medical Record Update
+
+---
+
+## 🏗️ System Architecture
+
+- Frontend: User interface for staff and patients
+- Backend: Core application logic and API services
+- Database: Stores patient data, appointments, and billing information
 
 ## ✨ Features
 
