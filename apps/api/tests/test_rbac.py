@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient, APIRequestFactory
 
-from apps.api.permissions import RoleRequired
+from apps.api.permissions import IsAdmin, IsDoctor, IsReceptionist, RoleRequired
 
 User = get_user_model()
 
@@ -29,18 +29,20 @@ class RBACPermissionTests(TestCase):
             is_superuser=True,
         )
 
-        self.provider_user = User.objects.create_user(
-            username="rbac-provider",
+        self.doctor_user = User.objects.create_user(
+            username="rbac-doctor",
             password="testpass123",
-            email="provider@example.com",
-            role=User.Role.PROVIDER,
+            email="doctor@example.com",
+            role=User.Role.DOCTOR,
+            user_type="doctor",
         )
 
-        self.patient_user = User.objects.create_user(
-            username="rbac-patient",
+        self.receptionist_user = User.objects.create_user(
+            username="rbac-receptionist",
             password="testpass123",
-            email="patient@example.com",
-            role=User.Role.PATIENT,
+            email="receptionist@example.com",
+            role=User.Role.RECEPTIONIST,
+            user_type="receptionist",
         )
 
     def _client_for(self, user: User) -> APIClient:
@@ -48,16 +50,23 @@ class RBACPermissionTests(TestCase):
         client.force_authenticate(user)
         return client
 
-    def test_patient_blocked_from_clinical_endpoints(self):
-        """Patients should receive 403 when calling staff-only endpoints."""
-        client = self._client_for(self.patient_user)
-        url = reverse("api:patients-list")
+    def test_receptionist_blocked_from_admin_endpoints(self):
+        """Receptionists should receive 403 when calling admin-only endpoints."""
+        client = self._client_for(self.receptionist_user)
+        url = reverse("api:api_stats")
         response = client.get(url)
         self.assertEqual(response.status_code, 403)
 
-    def test_provider_blocked_from_admin_only_metrics(self):
-        """Providers must not access admin-only statistics endpoints."""
-        client = self._client_for(self.provider_user)
+    def test_receptionist_blocked_from_doctor_only_endpoints(self):
+        """Receptionists should receive 403 when calling doctor-only endpoints."""
+        client = self._client_for(self.receptionist_user)
+        url = reverse("api:health-workers-list")
+        response = client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_doctor_blocked_from_admin_only_metrics(self):
+        """Doctors must not access admin-only statistics endpoints."""
+        client = self._client_for(self.doctor_user)
         url = reverse("api:api_stats")
         response = client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -75,27 +84,34 @@ class RBACPermissionTests(TestCase):
         self.assertEqual(export_response.status_code, 200)
         self.assertEqual(export_response.data["format"], "csv")
 
-    def test_role_required_allows_provider_role(self):
+    def test_role_required_allows_doctor_role(self):
         """RoleRequired should allow users whose role matches the requirement."""
         permission = RoleRequired()
 
         class DummyView:
-            required_roles = frozenset({User.Role.PROVIDER})
+            required_roles = frozenset({User.Role.DOCTOR})
 
         request = self.factory.get("/dummy")
-        request.user = self.provider_user
+        request.user = self.doctor_user
 
         self.assertTrue(permission.has_permission(request, DummyView()))
 
-        request.user = self.patient_user
+        request.user = self.receptionist_user
         self.assertFalse(permission.has_permission(request, DummyView()))
 
         request.user = self.admin_user
         self.assertTrue(permission.has_permission(request, DummyView()))
 
-    def test_provider_can_access_provider_endpoints(self):
-        """Providers should access endpoints allowed for providers."""
-        client = self._client_for(self.provider_user)
+    def test_doctor_can_access_doctor_endpoints(self):
+        """Doctors should access endpoints allowed for doctors."""
+        client = self._client_for(self.doctor_user)
+        url = reverse("api:patients-list")
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_receptionist_can_access_receptionist_endpoints(self):
+        """Receptionists should access endpoints allowed for receptionists."""
+        client = self._client_for(self.receptionist_user)
         url = reverse("api:patients-list")
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -104,7 +120,7 @@ class RBACPermissionTests(TestCase):
         """Admins should have access to all endpoints."""
         client = self._client_for(self.admin_user)
         
-        # Test provider endpoints
+        # Test patient endpoints (all roles)
         patients_url = reverse("api:patients-list")
         response = client.get(patients_url)
         self.assertEqual(response.status_code, 200)
@@ -128,4 +144,46 @@ class RBACPermissionTests(TestCase):
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["status"], "healthy")
+
+    def test_is_admin_permission(self):
+        """IsAdmin permission should only allow admin users."""
+        permission = IsAdmin()
+        request = self.factory.get("/dummy")
+
+        request.user = self.admin_user
+        self.assertTrue(permission.has_permission(request, None))
+
+        request.user = self.doctor_user
+        self.assertFalse(permission.has_permission(request, None))
+
+        request.user = self.receptionist_user
+        self.assertFalse(permission.has_permission(request, None))
+
+    def test_is_doctor_permission(self):
+        """IsDoctor permission should allow doctor and admin users."""
+        permission = IsDoctor()
+        request = self.factory.get("/dummy")
+
+        request.user = self.admin_user
+        self.assertTrue(permission.has_permission(request, None))
+
+        request.user = self.doctor_user
+        self.assertTrue(permission.has_permission(request, None))
+
+        request.user = self.receptionist_user
+        self.assertFalse(permission.has_permission(request, None))
+
+    def test_is_receptionist_permission(self):
+        """IsReceptionist permission should allow all roles."""
+        permission = IsReceptionist()
+        request = self.factory.get("/dummy")
+
+        request.user = self.admin_user
+        self.assertTrue(permission.has_permission(request, None))
+
+        request.user = self.doctor_user
+        self.assertTrue(permission.has_permission(request, None))
+
+        request.user = self.receptionist_user
+        self.assertTrue(permission.has_permission(request, None))
 

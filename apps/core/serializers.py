@@ -15,12 +15,13 @@ class UserSerializer(serializers.ModelSerializer):
     """
     full_name = serializers.SerializerMethodField()
     user_type_display = serializers.CharField(source='get_user_type_display', read_only=True)
+    role_display = serializers.CharField(source='get_role_display', read_only=True)
     
     class Meta:
         model = User
         fields = [
             'id', 'username', 'email', 'first_name', 'last_name', 'full_name',
-            'user_type', 'user_type_display', 'phone_number', 'date_of_birth',
+            'role', 'role_display', 'user_type', 'user_type_display', 'phone_number', 'date_of_birth',
             'profile_picture', 'license_number', 'specialization', 'years_of_experience',
             'is_active', 'date_joined', 'last_login'
         ]
@@ -52,7 +53,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'username', 'email', 'first_name', 'last_name', 'password',
-            'password_confirm', 'user_type', 'phone_number', 'date_of_birth'
+            'password_confirm', 'role', 'user_type', 'phone_number', 'date_of_birth'
         ]
     
     def validate(self, attrs):

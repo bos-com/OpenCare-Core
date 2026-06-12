@@ -14,8 +14,8 @@ class User(AbstractUser):
     """
     class Role(models.TextChoices):
         ADMIN = 'admin', _('Administrator')
-        PROVIDER = 'provider', _('Healthcare Provider')
-        PATIENT = 'patient', _('Patient')
+        DOCTOR = 'doctor', _('Doctor')
+        RECEPTIONIST = 'receptionist', _('Receptionist')
 
     USER_TYPE_CHOICES = [
         ('admin', _('Administrator')),
@@ -25,12 +25,13 @@ class User(AbstractUser):
         ('community_worker', _('Community Health Worker')),
         ('pharmacist', _('Pharmacist')),
         ('lab_technician', _('Laboratory Technician')),
+        ('receptionist', _('Receptionist')),
     ]
     
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
-        default=Role.PROVIDER,
+        default=Role.RECEPTIONIST,
         help_text=_('High-level persona used for role-based access control.')
     )
     user_type = models.CharField(
@@ -71,14 +72,14 @@ class User(AbstractUser):
         return self.role == self.Role.ADMIN
 
     @property
-    def is_provider_role(self):
-        """Check if user has provider role."""
-        return self.role == self.Role.PROVIDER
+    def is_doctor_role(self):
+        """Check if user has doctor role."""
+        return self.role == self.Role.DOCTOR
 
     @property
-    def is_patient_role(self):
-        """Check if user has patient role."""
-        return self.role == self.Role.PATIENT
+    def is_receptionist_role(self):
+        """Check if user has receptionist role."""
+        return self.role == self.Role.RECEPTIONIST
 
 
 class Location(models.Model):
