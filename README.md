@@ -621,3 +621,10 @@ cp env.example .env
 
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+
+
+## Project Folder Structure
+- `docs/`: Documentation files
+- `src/` or `app/`: Main application source code
+- `tests/`: Unit and integration tests
+- `.github/`: GitHub actions and templates
