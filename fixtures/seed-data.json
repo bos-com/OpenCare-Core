@@ -1,0 +1,104 @@
+{
+  "patients": [
+    {
+      "model": "core.patient",
+      "pk": 1,
+      "fields": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "phone": "+254-712-345678",
+        "date_of_birth": "1985-06-15",
+        "address": "123 Nairobi Street, Nairobi"
+      }
+    },
+    {
+      "model": "core.patient",
+      "pk": 2,
+      "fields": {
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+254-723-456789",
+        "date_of_birth": "1990-09-22",
+        "address": "456 Mombasa Road, Mombasa"
+      }
+    },
+    {
+      "model": "core.patient",
+      "pk": 3,
+      "fields": {
+        "name": "Robert Otieno",
+        "email": "robert.otieno@example.com",
+        "phone": "+254-734-567890",
+        "date_of_birth": "1978-03-10",
+        "address": "789 Kisumu Avenue, Kisumu"
+      }
+    }
+  ],
+  "doctors": [
+    {
+      "model": "core.doctor",
+      "pk": 1,
+      "fields": {
+        "name": "Dr. Sarah Johnson",
+        "specialty": "Cardiology",
+        "email": "sarah.johnson@opencare.org",
+        "phone": "+254-700-123456"
+      }
+    },
+    {
+      "model": "core.doctor",
+      "pk": 2,
+      "fields": {
+        "name": "Dr. Michael Lee",
+        "specialty": "Pediatrics",
+        "email": "michael.lee@opencare.org",
+        "phone": "+254-701-234567"
+      }
+    },
+    {
+      "model": "core.doctor",
+      "pk": 3,
+      "fields": {
+        "name": "Dr. Grace Mwangi",
+        "specialty": "Obstetrics and Gynecology",
+        "email": "grace.mwangi@opencare.org",
+        "phone": "+254-702-345678"
+      }
+    }
+  ],
+  "appointments": [
+    {
+      "model": "core.appointment",
+      "pk": 1,
+      "fields": {
+        "patient": 1,
+        "doctor": 1,
+        "appointment_date": "2026-05-15T10:00:00Z",
+        "status": "scheduled",
+        "reason": "Chest pain and shortness of breath"
+      }
+    },
+    {
+      "model": "core.appointment",
+      "pk": 2,
+      "fields": {
+        "patient": 2,
+        "doctor": 2,
+        "appointment_date": "2026-05-16T14:30:00Z",
+        "status": "scheduled",
+        "reason": "Annual checkup for child"
+      }
+    },
+    {
+      "model": "core.appointment",
+      "pk": 3,
+      "fields": {
+        "patient": 3,
+        "doctor": 3,
+        "appointment_date": "2026-05-17T09:15:00Z",
+        "status": "scheduled",
+        "reason": "Prenatal consultation"
+      }
+    }
+  ]
+}
