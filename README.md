@@ -2,6 +2,28 @@
 
 A comprehensive health informatics platform backend built with Django, designed specifically for healthcare management in Africa.
 
+## 📋 Table of Contents
+
+- [🏥 Project Overview](#-project-overview)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#️-architecture)
+- [🚀 Quick Start](#-quick-start)
+- [📚 API Documentation](#-api-documentation)
+- [🗄️ Database Schema](#️-database-schema)
+- [🔧 Configuration](#-configuration)
+- [🧪 Testing](#-testing)
+- [📈 Performance & Monitoring](#-performance--monitoring)
+- [🚀 Deployment](#-deployment)
+- [🔒 Security Features](#-security-features)
+- [📚 Documentation](#-documentation)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🗺️ Roadmap](#️-roadmap)
+- [🙏 Acknowledgments](#-acknowledgments)
+
+---
+
 ## 🏥 Project Overview
 
 OpenCare-Africa is a robust, scalable backend system for managing healthcare operations, patient records, health worker management, and health facility operations. The system is built with modern Django practices and includes comprehensive API endpoints for integration with frontend applications.
@@ -384,13 +406,33 @@ docker run -e DJANGO_SETTINGS_MODULE=config.settings.production opencare-africa:
 
 ## 📚 Documentation
 
-- **API Documentation**: Built-in Swagger/OpenAPI docs
-- **Code Documentation**: Comprehensive docstrings
-- **Admin Interface**: Django admin for data management
-- **User Guides**: Available in `/docs/` directory
-- **Patient Records**: See [`docs/patient-records.md`](docs/patient-records.md) for CRUD usage and security notes
-- **Audit Logging**: See [`docs/audit-logs.md`](docs/audit-logs.md) for PHI access tracking requirements
-- **Appointments**: See [`docs/appointments.md`](docs/appointments.md) for scheduling API usage and safeguards
+### Available Documentation
+
+- **API Documentation**: Built-in Swagger/OpenAPI docs at `/api/docs/`
+- **Code Documentation**: Comprehensive docstrings throughout the codebase
+- **Admin Interface**: Django admin for data management at `/admin/`
+- **User Guides**: Available in the `/docs/` directory
+
+### Key Documentation Files
+
+> **Note**: Some documentation files are being updated and will be available soon:
+> - Patient Records CRUD usage and security notes
+> - Audit logging for PHI access tracking
+> - Appointments scheduling API usage and safeguards
+
+### API Documentation Access
+
+Once the application is running, you can access:
+- **Swagger UI**: http://localhost:8000/api/docs/
+- **ReDoc**: http://localhost:8000/api/redoc/
+- **OpenAPI Schema**: http://localhost:8000/api/schema/
+
+### Getting Help
+
+- **Documentation**: Check the `/docs/` directory for detailed guides
+- **Issues**: Report bugs via GitHub Issues
+- **Discussions**: Use GitHub Discussions for questions
+- **Email**: Contact the development team for support
 
 ## 🤝 Contributing
 
