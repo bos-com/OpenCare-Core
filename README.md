@@ -621,3 +621,7 @@ cp env.example .env
 
 
 **OpenCare-Africa** - Empowering healthcare in Africa through technology.
+## Setup Guide
+1. Clone the project
+2. Install dependencies
+3. Run the system
